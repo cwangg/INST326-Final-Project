@@ -1,3 +1,3 @@
-print("hello") #Alex
+print("Alex") 
 print("Colleen")
 print("Mez")
