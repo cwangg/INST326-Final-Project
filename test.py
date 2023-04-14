@@ -1,4 +1,11 @@
-print("Alex") 
-print("Colleen")
-print("Mez")
-print("Arkebe")
+class Grocery:
+    pass    
+    
+class Shopper: 
+    pass
+
+class Product:
+    pass
+
+class Coupon:
+    pass
