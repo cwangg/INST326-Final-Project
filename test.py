@@ -27,4 +27,9 @@ class Product:
 
 
 class Coupon:
-    pass
+# class that createa a dictionary for each new shopper, 
+# and adds a randomly generated coupon from the products class
+    def __init__(self, shopper):
+    # Creates a dictionary of coupons for each shopper
+        self.coupons = {}
+    
