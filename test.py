@@ -1,8 +1,18 @@
 import random
 
-class Grocery:
-    pass    
+class GroceryStore:
+    def __init__(self, name, inventory):
+        # Intitialize a grocery store with the name of it and its inventory.
+        self.name = name
+        self.inventory = dict()
     
+    def setup_store(self, stock):
+        # Stock will be a file containing the name of an item and it's quantity
+        with open(stock, "r", encoding="utf-8") as f:
+            for line in f:
+                for item, quantity in line.strip().split():
+                    self.inventory[item] = quantity
+
 class Shopper: 
     pass
 
