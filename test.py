@@ -65,4 +65,10 @@ class Coupon:
                 return product
         return None
     
+    def set_product(self, product_name, new_product):
+    # method that switches the product on a coupon to a different product
+        self.coupons.pop(product_name, None)
+        # removing old product and adding new product with its name as key
+        self.coupons[new_product.get_name()] = self.get_discount(product_name)
+    
     
