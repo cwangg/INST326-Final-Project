@@ -14,9 +14,28 @@ class GroceryStore:
                     self.inventory[item] = quantity
 
 class Shopper: 
-    pass
+    def init(self, budget, store_prices):
+        self.cart = []
+        self.budget = budget
+        self.store_prices = store_prices
+
+    def add(self, item, price, inventory):
+        if item in inventory and price <= self.budget:
+            self.cart.append(item)
+            self.budget -= price
+            return True
+        else:
+            print(f"Item cost to much, put it back!")
+
+    def checkout(self):
+        total = 0
+        for item in self.cart:
+            total += self.store_prices[item]
+        self.cart = []
+        return total
 
 class Product:
+    # A class that gives values to the products in the grocery store with names, prices, and quantity
     def __init__(self, name, price, quantity):
         self.name = name
         self.price = price
