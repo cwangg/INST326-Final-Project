@@ -1,3 +1,5 @@
+import random
+
 class Grocery:
     pass    
     
@@ -32,4 +34,12 @@ class Coupon:
     def __init__(self, shopper):
     # Creates a dictionary of coupons for each shopper
         self.coupons = {}
+    
+    def generate_coupon(self):
+    # method that will generate a random discount (int between 5, 20)
+    # and choose a random product and print the resulting information
+        discount = random.randint(5, 20)
+        product = random.choice(Product.products)
+        self.coupons[product.get_name()] = discount
+        print(f"{Shopper} has a coupon for {discount}% off {product}")
     
