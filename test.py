@@ -25,43 +25,6 @@ class GroceryStore:
                 for item, quantity in line.strip().split():
                     self.inventory[item] = quantity
 
-class Shopper: 
-    """
-    A class that represents a shopper.
-
-    Attributes:
-    - cart (list): a list of items in the shopper's cart
-    - budget (float): the amount of money the shopper has to spend
-    - store_prices (dict): a dictionary of product names and their prices in the grocery store
-
-    Methods:
-    - __init__(self, budget, store_prices): Initializes a shopper with a budget and the prices of products 
-                                             in the grocery store.
-    - add(self, item, price, inventory): Adds an item to the shopper's cart if it is available in the inventory 
-                                         and the shopper's budget is sufficient to buy it.
-    - checkout(self): Calculates the total cost of items in the shopper's cart and returns it. 
-                      The cart is then cleared.
-    """
-    def init(self, budget, store_prices):
-        self.cart = []
-        self.budget = budget
-        self.store_prices = store_prices
-
-    def add(self, item, price, inventory):
-        if item in inventory and price <= self.budget:
-            self.cart.append(item)
-            self.budget -= price
-            return True
-        else:
-            print(f"Item cost to much, put it back!")
-
-    def checkout(self):
-        total = 0
-        for item in self.cart:
-            total += self.store_prices[item]
-        self.cart = []
-        return total
-
 class Product:
     """
     A class that represents a product in a grocery store.
@@ -99,8 +62,7 @@ class Product:
     def set_quantity(self, new_quantity):
         self.quantity = new_quantity
 
-
-class Coupon:
+class Coupon():
     """
     A class that represents a coupon for a shopper.
 
@@ -158,5 +120,42 @@ class Coupon:
         self.coupons.pop(product_name, None)
         # removing old product and adding new product with its name as key
         self.coupons[new_product.get_name()] = self.get_discount(product_name)
+
+class Shopper: 
+    """
+    A class that represents a shopper.
+
+    Attributes:
+    - cart (list): a list of items in the shopper's cart
+    - budget (float): the amount of money the shopper has to spend
+    - store_prices (dict): a dictionary of product names and their prices in the grocery store
+
+    Methods:
+    - __init__(self, budget, store_prices): Initializes a shopper with a budget and the prices of products 
+                                             in the grocery store.
+    - add(self, item, price, inventory): Adds an item to the shopper's cart if it is available in the inventory 
+                                         and the shopper's budget is sufficient to buy it.
+    - checkout(self): Calculates the total cost of items in the shopper's cart and returns it. 
+                      The cart is then cleared.
+    """
+    def init(self, budget, store_prices):
+        self.cart = []
+        self.budget = budget
+        self.store_prices = store_prices
+
+    def add(self, item, price, inventory):
+        if item in inventory and price <= self.budget:
+            self.cart.append(item)
+            self.budget -= price
+            return True
+        else:
+            print(f"Item cost to much, put it back!")
+
+    def checkout(self):
+        total = 0
+        for item in self.cart:
+            total += self.store_prices[item]
+        self.cart = []
+        return total
     
     
