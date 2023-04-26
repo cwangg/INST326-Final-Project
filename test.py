@@ -28,7 +28,7 @@ class GroceryStore:
 
 class Shopper: 
     """
-    A class that represents a shopper. Uses magic methods and f-strings.
+    A class that represents a shopper.
 
     Attributes:
     - cart (list): a list of items in the shopper's cart
@@ -100,8 +100,7 @@ class Product:
     def set_quantity(self, new_quantity):
         self.quantity = new_quantity
 
-
-class Coupon:
+class Coupon():
     """
     A class that represents a coupon for a shopper. Ues conditional expression and set operations.
 
@@ -160,6 +159,4 @@ class Coupon:
         # removing old product and adding new product with its name as key
         self.coupons[new_product.get_name()] = self.get_discount(product_name)
     
-def main():
-    gc = GroceryStore("Walmart", )
-    shopper = Shopper("Bob", 50, )
+    
