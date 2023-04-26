@@ -2,7 +2,8 @@ import random
 
 class GroceryStore:
     """
-    A class that represents a grocery store.
+    A class that represents a grocery store. Uses with statement and sequence
+    unpacking.
 
     Attributes:
     - name (str): the name of the grocery store
@@ -27,7 +28,7 @@ class GroceryStore:
 
 class Shopper: 
     """
-    A class that represents a shopper.
+    A class that represents a shopper. Uses magic methods and f-strings.
 
     Attributes:
     - cart (list): a list of items in the shopper's cart
@@ -102,7 +103,7 @@ class Product:
 
 class Coupon:
     """
-    A class that represents a coupon for a shopper.
+    A class that represents a coupon for a shopper. Ues conditional expression and set operations.
 
     Attributes:
     - coupons (dict): a dictionary of product names and their discounts for a shopper
@@ -159,4 +160,6 @@ class Coupon:
         # removing old product and adding new product with its name as key
         self.coupons[new_product.get_name()] = self.get_discount(product_name)
     
-    
+def main():
+    gc = GroceryStore("Walmart", )
+    shopper = Shopper("Bob", 50, )
