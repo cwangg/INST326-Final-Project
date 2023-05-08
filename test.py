@@ -1,4 +1,5 @@
 import random
+import pandas as pd
 
 class GroceryStore:
     """
@@ -23,8 +24,8 @@ class GroceryStore:
         # Stock will be a file containing the name of an item and it's quantity
         with open(stock, "r", encoding="utf-8") as f:
             for line in f:
-                for item, quantity in line.strip().split():
-                    self.inventory[item] = quantity
+                for item, category, quantity, price in line.strip().split():
+                    self.inventory[item] = Product(item, category, quantity, price)
 
 class Shopper: 
     """
@@ -62,6 +63,8 @@ class Shopper:
             total += self.store_prices[item]
         self.cart = []
         return total
+    #If at checkout the price is greater than the shopper's budget, remove the most expensive item from the person's cart. Keep doing that until
+    #total price is < the shopper's budget.
 
 class Product:
     """
@@ -80,10 +83,11 @@ class Product:
     - set_price(self, new_price): Sets a new price for the product.
     - set_quantity(self, new_quantity): Sets a new quantity for the product in the store.
     """
-    def __init__(self, name, price, quantity):
+    def __init__(self, name, category, quantity, price):
         self.name = name
-        self.price = price
+        self.category = category
         self.quantity = quantity
+        self.price = price
 
     def get_name(self):
         return self.name
@@ -158,5 +162,8 @@ class Coupon():
         self.coupons.pop(product_name, None)
         # removing old product and adding new product with its name as key
         self.coupons[new_product.get_name()] = self.get_discount(product_name)
+
+def main(inventory):
+    pass
     
     
