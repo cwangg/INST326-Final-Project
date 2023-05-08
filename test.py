@@ -43,7 +43,7 @@ class Shopper:
     - checkout(self): Calculates the total cost of items in the shopper's cart and returns it. 
                       The cart is then cleared.
     """
-    def init(self, budget, store_prices):
+    def init(self, budget, store_prices,):
         self.cart = []
         self.budget = budget
         self.store_prices = store_prices
@@ -119,7 +119,7 @@ class Coupon():
     """
 # class that createa a dictionary for each new shopper, 
 # and adds a randomly generated coupon from the products class
-    def __init__(self):
+    def __init__(self, have_coupons = False):
     # Creates a dictionary of coupons for each shopper
         self.coupons = {}
     
