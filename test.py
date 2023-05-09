@@ -15,56 +15,14 @@ class GroceryStore:
     - setup_store(self, stock): Populates the inventory of the grocery store with products and their quantities 
                                 from a file named "stock". 
     """
-    def __init__(self, name, inventory):
+    def __init__(self, name = "", inventory = "grocery store inventory.csv"):
         # Intitialize a grocery store with the name of it and its inventory.
         self.name = name
-        self.inventory = dict()
-    
-    def setup_store(self, stock):
-        # Stock will be a file containing the name of an item and it's quantity
-        with open(stock, "r", encoding="utf-8") as f:
+        self.inventory = {}
+        with open(inventory, "r", encoding="utf-8") as f:
             for line in f:
-                for item, category, quantity, price in line.strip().split():
-                    self.inventory[item] = Product(item, category, quantity, price)
-
-class Shopper: 
-    """
-    A class that represents a shopper.
-
-    Attributes:
-    - cart (list): a list of items in the shopper's cart
-    - budget (float): the amount of money the shopper has to spend
-    - store_prices (dict): a dictionary of product names and their prices in the grocery store
-
-    Methods:
-    - __init__(self, budget, store_prices): Initializes a shopper with a budget and the prices of products 
-                                             in the grocery store.
-    - add(self, item, price, inventory): Adds an item to the shopper's cart if it is available in the inventory 
-                                         and the shopper's budget is sufficient to buy it.
-    - checkout(self): Calculates the total cost of items in the shopper's cart and returns it. 
-                      The cart is then cleared.
-    """
-    def init(self, budget, store_prices,):
-        self.cart = []
-        self.budget = budget
-        self.store_prices = store_prices
-
-    def add(self, item, price, inventory):
-        if item in inventory and price <= self.budget:
-            self.cart.append(item)
-            self.budget -= price
-            return True
-        else:
-            print(f"Item cost to much, put it back!")
-
-    def checkout(self):
-        total = 0
-        for item in self.cart:
-            total += self.store_prices[item]
-        self.cart = []
-        return total
-    #If at checkout the price is greater than the shopper's budget, remove the most expensive item from the person's cart. Keep doing that until
-    #total price is < the shopper's budget.
+                item, category, quantity, price = line.strip().split(',')
+                self.inventory[item] = Product(item, category, quantity, price)
 
 class Product:
     """
@@ -104,6 +62,67 @@ class Product:
     def set_quantity(self, new_quantity):
         self.quantity = new_quantity
 
+class Shopper: 
+    """
+    A class that represents a shopper.
+
+    Attributes:
+    - cart (list): a list of items in the shopper's cart
+    - budget (float): the amount of money the shopper has to spend
+    - store_prices (dict): a dictionary of product names and their prices in the grocery store
+
+    Methods:
+    - __init__(self, budget, store_prices): Initializes a shopper with a budget and the prices of products 
+                                             in the grocery store.
+    - add(self, item, price, inventory): Adds an item to the shopper's cart if it is available in the inventory 
+                                         and the shopper's budget is sufficient to buy it.
+    - checkout(self): Calculates the total cost of items in the shopper's cart and returns it. 
+                      The cart is then cleared.
+    """
+    def __init__(self, name, budget):
+        self.name = name
+        self.cart = []
+        self.budget = budget
+        self.coupon = None
+
+    def add(self, product_name, quantity):
+        if product_name not in GroceryStore().inventory:
+            print(f"Sorry! We dont have {product_name}")
+            return
+        product = GroceryStore().inventory[product_name]
+        total_price = product.price * quantity
+        if total_price > self.budget:
+            print(f"Item cost to much, put it back!")
+            return
+        if product_name in self.cart:
+            self.cart[product_name] += quantity
+        else:
+            self.cart[product_name] = quantity
+        print(f"{quantity} {product_name}s added to your cart.")
+
+    def checkout(self):
+        total_price = 0
+        for product_name, quantity in self.cart.items():
+            product = GroceryStore.inventory[product_name]
+            total_price += product.price * quantity
+        if self.coupon is not None and self.coupon.product_name in self.cart:
+            discount = self.coupon.discount
+            product_name = self.coupon.product_name
+            print(f"You have a {discount}% discount on {product_name}!")
+            total_price *= (1 - discount/100)
+        print(f"Total price: ${total_price}")
+        while total_price > self.budget:
+            most_expensive_item = max(self.cart, key=lambda x: GroceryStore().inventory[x].price)
+            self.cart[most_expensive_item] -= 1
+            if self.cart[most_expensive_item] == 0:
+                del self.cart[most_expensive_item]
+            print(f"Removed 1 {most_expensive_item} from your cart.")
+            total_price -= GroceryStore().inventory[most_expensive_item].price
+        print(f"You spent: ${total_price}.")
+        return total_price
+    #If at checkout the price is greater than the shopper's budget, remove the most expensive item from the person's cart. Keep doing that until
+    #total price is < the shopper's budget.
+
 class Coupon():
     """
     A class that represents a coupon for a shopper. Ues conditional expression and set operations.
@@ -123,47 +142,50 @@ class Coupon():
     """
 # class that createa a dictionary for each new shopper, 
 # and adds a randomly generated coupon from the products class
-    def __init__(self, have_coupons = False):
-    # Creates a dictionary of coupons for each shopper
-        self.coupons = {}
+    def __init__(self, product_name, discount):
+        self.discount = discount
+        self.product_name = product_name
     
-    def generate_coupon(self):
+    def generate_coupon(self, inventory):
     # method that will generate a random discount (int between 5, 20)
     # and choose a random product and print the resulting information
+        product_name, product = random.choice(list(inventory.items()))
         discount = random.randint(5, 20)
-        product = random.choice(Product.products)
-        self.coupons[product.get_name()] = discount
-        print(f"{Shopper} has a coupon for {discount}% off {product}")
+        coupon = self(product_name, discount)
+        return coupon
     
-    def get_coupons(self):
-    # method that returns the shoppers dictionary of coupons
-        return self.coupons
-    
-    def get_discount(self, product_name):
-    # method that gets the discount of a specific product
-        return self.coupons.get(product_name)
-        # might add error message "no coupon" if product not found
-    
-    def set_discount(self, product_name, new_discount):
-    # method that sets new discount for a specific product if needed
-    # or allows for manually created coupon
-        self.coupons[product_name] = new_discount
-        
-    def get_product(self, product_name):
-    # method that loops through Products and checks if the Shopper has
-    # a discount for that product
-        for product in Product.products:
-            if product.get_name() == product_name:
-                return product
-        return None
-    
-    def set_product(self, product_name, new_product):
-    # method that switches the product on a coupon to a different product
-        self.coupons.pop(product_name, None)
-        # removing old product and adding new product with its name as key
-        self.coupons[new_product.get_name()] = self.get_discount(product_name)
+    def check_coupons(self, Shopper):
+        if Shopper.coupon is not None:
+            print(f"You have a coupon for {Shopper.coupon.product_name}!")
+        else:
+            coupon = self.generate_coupon(GroceryStore.inventory)
+            Shopper.coupon = coupon
+            print(f"You received a {coupon.discount}% discount coupon for {coupon.product_name}!")
 
-def main(inventory):
-    pass
+if __name__ == '__main__':
+    store_name = input("Welcome! What grocery store would you like to shop at today? ")
+    store = GroceryStore(store_name,)
+
+    shopper_name = input(f"Thanks for choosing {store_name}! What's your name? ")
+    budget = float(input(f"{shopper_name}, What's your budget for today? $"))
+
+    shopper = Shopper(shopper_name, budget)
     
-    
+    while True:
+        choice = input("Would you like to add an item to your cart, checkout, or quit? ").lower()
+        if choice == "add":
+            item_name = input("What would you like to add to your cart? ")
+            quantity = int(input(f"How many {item_name} would you like to add to your cart? "))
+            shopper.add(item_name, quantity)
+        elif choice == "checkout":
+            if not shopper.cart:
+                print("Your cart is empty!")
+                continue
+            Coupon().check_coupons(shopper)
+            coupon_choice = input("Would you like to use a coupon? ").lower()
+            if coupon_choice == "yes":
+                shopper.checkout()
+            print("You spent $")
+        elif choice == "quit":
+            print ("Come back again!")
+            break
