@@ -32,7 +32,7 @@ class Product:
         return self.name
     
     def __repr__(self):
-        return f'Item: {self.name}, Category: {self.category}, Quantity = {self.quantity}), Price = ${self.price}'
+        return f'(Item: {self.name}, Category: {self.category}, Quantity = {self.quantity}, Price = ${self.price})'
     
     
 class GroceryStore:
@@ -52,11 +52,11 @@ class GroceryStore:
     def __init__(self, name = "", inventory = "grocery store inventory.csv"):
         # Intitialize a grocery store with the name of it and its inventory.
         self.name = name
-        self.inventory = {}
+        self.inventory = dict()
         with open(inventory, "r", encoding="utf-8") as f:
             for line in f:
                 item, category, quantity, price = line.strip().split(',')
-                self.inventory[item] = Product(item, category, int(quantity), float(price))
+                self.inventory[item] = Product(item, category, int(quantity), int(price))
 
     def get_inventory(self):
         return self.inventory
@@ -85,7 +85,7 @@ class Shopper:
         self.coupon = None
 
     def add(self, product_name, quantity):
-        if product_name not in GroceryStore().inventory.fromkeys(product_name):
+        if product_name not in GroceryStore().inventory:
             print(f"Sorry! We dont have {product_name}")
             return
         product = GroceryStore().inventory[product_name]
@@ -111,6 +111,22 @@ class Shopper:
             total_price *= (1 - discount/100)
         print(f"Total price: ${total_price}")
         return total_price
+    
+    def generate_coupon(self): #, inventory
+    # method that will generate a random discount (int between 5, 20)
+    # and choose a random product and print the resulting information
+        #product_name, product = random.choice(list(inventory.items()))
+        discount = random.randint(5, 20)
+        coupon = Coupon(discount)
+        return coupon
+    
+    def check_coupons(self):
+        if self.coupon is not None:
+            print(f"You have a coupon for {self.coupon.product_name}!")
+        else:
+            coupon = self.generate_coupon #(GroceryStore.inventory)
+            shopper.coupon = coupon
+            print(f"You received a {shopper.coupon}% discount coupon!")
     #If at checkout the price is greater than the shopper's budget, remove the most expensive item from the person's cart. Keep doing that until
     #total price is < the shopper's budget.
 
@@ -133,29 +149,25 @@ class Coupon:
     """
 # class that createa a dictionary for each new shopper, 
 # and adds a randomly generated coupon from the products class
-    def __init__(self, product_name, discount):
+    def __init__(self, discount): #product_name, 
         self.discount = discount
-        self.product_name = product_name
+        #self.product_name = product_name
     
-    def generate_coupon(self, inventory):
+    def get_discount(self):
+        return self.discount
+    #def generate_coupon(self, inventory):
     # method that will generate a random discount (int between 5, 20)
     # and choose a random product and print the resulting information
-        product_name, product = random.choice(list(inventory.items()))
-        discount = random.randint(5, 20)
-        coupon = self(product_name, discount)
-        return coupon
-    
-    def check_coupons(self, shopper):
-        if shopper.coupon is not None:
-            print(f"You have a coupon for {shopper.coupon.product_name}!")
-        else:
-            coupon = self.generate_coupon(GroceryStore.inventory)
-            shopper.coupon = coupon
-            print(f"You received a {coupon.discount}% discount coupon for {coupon.product_name}!")
+    #    product_name, product = random.choice(list(inventory.items()))
+    #   discount = random.randint(5, 20)
+    #    coupon = self(product_name, discount)
+    #    return coupon
+
 
 if __name__ == '__main__':
     store_name = input("Welcome! What grocery store would you like to shop at today? ")
     store = GroceryStore(store_name,)
+    #print(GroceryStore().inventory)
 
     shopper_name = input(f"Thanks for choosing {store_name}! What's your name? ")
     budget = float(input(f"{shopper_name}, What's your budget for today? $"))
@@ -172,7 +184,7 @@ if __name__ == '__main__':
             if not shopper.cart:
                 print("Your cart is empty!")
                 continue
-            Coupon().check_coupons(shopper)
+            shopper.check_coupons()
             coupon_choice = input("Would you like to use a coupon? ").lower()
             if coupon_choice == "yes":
                 shopper.checkout()
