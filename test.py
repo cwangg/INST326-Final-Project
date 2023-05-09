@@ -25,7 +25,6 @@ class Product:
         self.quantity = quantity
         self.price = price
         
-
     def get_category(self):
         return self.category
 
@@ -98,7 +97,7 @@ class Shopper:
             self.cart[product_name] += quantity
         else:
             self.cart[product_name] = quantity
-        print(f"{quantity} {product_name}s added to your cart.")
+        print(f"{quantity} {product_name} added to your cart.")
 
     def checkout(self):
         total_price = 0
@@ -113,7 +112,7 @@ class Shopper:
         print(f"Total price: ${total_price}")
         return total_price
     
-    def generate_coupon(self): #, inventory
+    def generate_coupon(self, inventory):
     # method that will generate a random discount (int between 5, 20)
     # and choose a random product and print the resulting information
         #product_name, product = random.choice(list(inventory.items()))
@@ -121,12 +120,11 @@ class Shopper:
         coupon = Coupon(discount)
         return coupon
     
-    def check_coupons(self):
+    def check_coupons(self, product_name):
         if self.coupon is not None:
             print(f"You have a coupon for {self.coupon.product_name}!")
         else:
-            coupon = self.generate_coupon #(GroceryStore.inventory)
-            shopper.coupon = coupon
+            shopper.coupon = self.generate_coupon(GroceryStore.get_inventory)
             print(f"You received a {shopper.coupon}% discount coupon!")
     #If at checkout the price is greater than the shopper's budget, remove the most expensive item from the person's cart. Keep doing that until
     #total price is < the shopper's budget.
@@ -184,7 +182,7 @@ if __name__ == '__main__':
             if not shopper.cart:
                 print("Your cart is empty!")
                 continue
-            shopper.check_coupons()
+            shopper.check_coupons(item_name)
             coupon_choice = input("Would you like to use a coupon? ").lower()
             if coupon_choice == "yes":
                 shopper.checkout()
