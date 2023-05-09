@@ -25,6 +25,7 @@ class Product:
         self.name = name
         self.quantity = quantity
         self.price = price
+        
 
     def get_category(self):
         return self.category
@@ -56,7 +57,7 @@ class GroceryStore:
         with open(inventory, "r", encoding="utf-8") as f:
             for line in f:
                 item, category, quantity, price = line.strip().split(',')
-                self.inventory[item] = Product(item, category, int(quantity), float(price))
+                self.inventory[item] = Product(item, category, quantity, price)
 
     def get_inventory(self):
         return self.inventory
@@ -156,11 +157,11 @@ class Coupon():
 if __name__ == '__main__':
     store_name = input("Welcome! What grocery store would you like to shop at today? ")
     store = GroceryStore(store_name,)
-
+    
     shopper_name = input(f"Thanks for choosing {store_name}! What's your name? ")
     budget = float(input(f"{shopper_name}, What's your budget for today? $"))
 
-    shopper = Shopper(shopper_name, budget)
+    shopper = Shopper(shopper_name, budget, store_name)
     
     while True:
         choice = input("Would you like to add an item to your cart, checkout, or quit? ").lower()
