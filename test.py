@@ -86,7 +86,7 @@ class Shopper:
         self.coupon = None
 
     def add(self, product_name, quantity):
-        if product_name not in GroceryStore().inventory.fromkeys(product_name):
+        if product_name not in GroceryStore().inventory.keys():
             print(f"Sorry! We dont have {product_name}")
             return
         product = GroceryStore().inventory[product_name]
@@ -161,7 +161,7 @@ if __name__ == '__main__':
     shopper_name = input(f"Thanks for choosing {store_name}! What's your name? ")
     budget = float(input(f"{shopper_name}, What's your budget for today? $"))
 
-    shopper = Shopper(shopper_name, budget, store_name)
+    shopper = Shopper(shopper_name, budget)
     
     while True:
         choice = input("Would you like to add an item to your cart, checkout, or quit? ").lower()
