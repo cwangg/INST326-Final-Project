@@ -1,3 +1,4 @@
+import sys
 import random
 import pandas as pd
 
@@ -24,7 +25,7 @@ class GroceryStore:
                 item, category, quantity, price = line.strip().split(',')
                 self.inventory[item] = Product(item, category, quantity, price)
 
-class Product:
+class Product(GroceryStore):
     """
     A class that represents a product in a grocery store.
 
@@ -42,25 +43,18 @@ class Product:
     - set_quantity(self, new_quantity): Sets a new quantity for the product in the store.
     """
     def __init__(self, name, category, quantity, price):
-        self.name = name
+        super().__init__()
         self.category = category
+        self.inventory = self.inventory
+        self.name = name
         self.quantity = quantity
         self.price = price
 
-    def get_name(self):
-        return self.name
+    def get_category(self):
+        return self.category
 
-    def get_price(self):
-        return self.price
-
-    def get_quantity(self):
-        return self.quantity
-
-    def set_price(self, new_price):
-        self.price = new_price
-
-    def set_quantity(self, new_quantity):
-        self.quantity = new_quantity
+    def get_inventory(self):
+        return self.inventory
 
 class Shopper: 
     """
