@@ -85,7 +85,7 @@ class Shopper:
         self.coupon = None
 
     def add(self, product_name, quantity):
-        if product_name not in GroceryStore().inventory:
+        if product_name not in GroceryStore().inventory[product_name]:
             print(f"Sorry! We dont have {product_name}")
             return
         product = GroceryStore().inventory[product_name]
