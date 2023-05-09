@@ -111,14 +111,6 @@ class Shopper:
             print(f"You have a {discount}% discount on {product_name}!")
             total_price *= (1 - discount/100)
         print(f"Total price: ${total_price}")
-        while total_price > self.budget:
-            most_expensive_item = max(self.cart, key=lambda x: GroceryStore().inventory[x].price)
-            self.cart[most_expensive_item] -= 1
-            if self.cart[most_expensive_item] == 0:
-                del self.cart[most_expensive_item]
-            print(f"Removed 1 {most_expensive_item} from your cart.")
-            total_price -= GroceryStore().inventory[most_expensive_item].price
-        print(f"You spent: ${total_price}.")
         return total_price
     #If at checkout the price is greater than the shopper's budget, remove the most expensive item from the person's cart. Keep doing that until
     #total price is < the shopper's budget.
