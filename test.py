@@ -20,8 +20,8 @@ class Product:
     - set_quantity(self, new_quantity): Sets a new quantity for the product in the store.
     """
     def __init__(self, name, category, quantity, price):
-        self.category = category
         self.name = name
+        self.category = category
         self.quantity = quantity
         self.price = price
 
@@ -30,6 +30,9 @@ class Product:
 
     def get_name(self):
         return self.name
+    
+    def __repr__(self):
+        return f'Item: {self.name}, Category: {self.category}, Quantity = {self.quantity}), Price = ${self.price}'
     
     
 class GroceryStore:
