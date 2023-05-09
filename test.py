@@ -85,7 +85,7 @@ class Shopper:
         self.coupon = None
 
     def add(self, product_name, quantity):
-        if product_name not in GroceryStore().inventory[product_name]:
+        if product_name not in GroceryStore().inventory.fromkeys(product_name):
             print(f"Sorry! We dont have {product_name}")
             return
         product = GroceryStore().inventory[product_name]
@@ -114,7 +114,7 @@ class Shopper:
     #If at checkout the price is greater than the shopper's budget, remove the most expensive item from the person's cart. Keep doing that until
     #total price is < the shopper's budget.
 
-class Coupon():
+class Coupon:
     """
     A class that represents a coupon for a shopper. Ues conditional expression and set operations.
 
