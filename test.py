@@ -24,6 +24,7 @@ class Product:
         self.category = category
         self.quantity = quantity
         self.price = price
+        
 
     def get_category(self):
         return self.category
@@ -167,8 +168,7 @@ class Coupon:
 if __name__ == '__main__':
     store_name = input("Welcome! What grocery store would you like to shop at today? ")
     store = GroceryStore(store_name,)
-    #print(GroceryStore().inventory)
-
+    
     shopper_name = input(f"Thanks for choosing {store_name}! What's your name? ")
     budget = float(input(f"{shopper_name}, What's your budget for today? $"))
 
