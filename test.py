@@ -20,9 +20,8 @@ class Product:
     - set_quantity(self, new_quantity): Sets a new quantity for the product in the store.
     """
     def __init__(self, name, category, quantity, price):
-        super().__init__()
-        self.category = category
         self.name = name
+        self.category = category
         self.quantity = quantity
         self.price = price
         
@@ -33,9 +32,10 @@ class Product:
     def get_name(self):
         return self.name
     
+    def __repr__(self):
+        return f'Item: {self.name}, Category: {self.category}, Quantity = {self.quantity}), Price = ${self.price}'
     
-
-
+    
 class GroceryStore:
     """
     A class that represents a grocery store. Uses with statement and sequence
@@ -86,7 +86,7 @@ class Shopper:
         self.coupon = None
 
     def add(self, product_name, quantity):
-        if product_name not in GroceryStore().inventory:
+        if product_name not in GroceryStore().inventory.fromkeys(product_name):
             print(f"Sorry! We dont have {product_name}")
             return
         product = GroceryStore().inventory[product_name]
@@ -115,7 +115,7 @@ class Shopper:
     #If at checkout the price is greater than the shopper's budget, remove the most expensive item from the person's cart. Keep doing that until
     #total price is < the shopper's budget.
 
-class Coupon():
+class Coupon:
     """
     A class that represents a coupon for a shopper. Ues conditional expression and set operations.
 
