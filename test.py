@@ -20,7 +20,6 @@ class Product:
     - set_quantity(self, new_quantity): Sets a new quantity for the product in the store.
     """
     def __init__(self, name, category, quantity, price):
-        super().__init__()
         self.category = category
         self.name = name
         self.quantity = quantity
@@ -33,8 +32,6 @@ class Product:
         return self.name
     
     
-
-
 class GroceryStore:
     """
     A class that represents a grocery store. Uses with statement and sequence
