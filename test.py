@@ -2,6 +2,39 @@ import sys
 import random
 import pandas as pd
 
+class Product:
+    """
+    A class that represents a product in a grocery store.
+
+    Attributes:
+    - name (str): the name of the product
+    - price (float): the price of the product
+    - quantity (int): the quantity of the product in the store
+
+    Methods:
+    - __init__(self, name, price, quantity): Initializes a product with its name, price, and quantity.
+    - get_name(self): Returns the name of the product.
+    - get_price(self): Returns the price of the product.
+    - get_quantity(self): Returns the quantity of the product in the store.
+    - set_price(self, new_price): Sets a new price for the product.
+    - set_quantity(self, new_quantity): Sets a new quantity for the product in the store.
+    """
+    def __init__(self, name, category, quantity, price):
+        super().__init__()
+        self.category = category
+        self.name = name
+        self.quantity = quantity
+        self.price = price
+
+    def get_category(self):
+        return self.category
+
+    def get_name(self):
+        return self.name
+    
+    
+
+
 class GroceryStore:
     """
     A class that represents a grocery store. Uses with statement and sequence
@@ -23,39 +56,11 @@ class GroceryStore:
         with open(inventory, "r", encoding="utf-8") as f:
             for line in f:
                 item, category, quantity, price = line.strip().split(',')
-                self.inventory[item] = Product(item, category, quantity, price)
-
-class Product(GroceryStore):
-    """
-    A class that represents a product in a grocery store.
-
-    Attributes:
-    - name (str): the name of the product
-    - price (float): the price of the product
-    - quantity (int): the quantity of the product in the store
-
-    Methods:
-    - __init__(self, name, price, quantity): Initializes a product with its name, price, and quantity.
-    - get_name(self): Returns the name of the product.
-    - get_price(self): Returns the price of the product.
-    - get_quantity(self): Returns the quantity of the product in the store.
-    - set_price(self, new_price): Sets a new price for the product.
-    - set_quantity(self, new_quantity): Sets a new quantity for the product in the store.
-    """
-    def __init__(self, name, category, quantity, price):
-        super().__init__()
-        self.category = category
-        self.inventory = self.inventory
-        self.name = name
-        self.quantity = quantity
-        self.price = price
-
-    def get_category(self):
-        return self.category
+                self.inventory[item] = Product(item, category, int(quantity), float(price))
 
     def get_inventory(self):
         return self.inventory
-
+    
 class Shopper: 
     """
     A class that represents a shopper.
@@ -75,7 +80,7 @@ class Shopper:
     """
     def __init__(self, name, budget):
         self.name = name
-        self.cart = []
+        self.cart = {}
         self.budget = budget
         self.coupon = None
 
@@ -140,12 +145,12 @@ class Coupon():
         coupon = self(product_name, discount)
         return coupon
     
-    def check_coupons(self, Shopper):
-        if Shopper.coupon is not None:
-            print(f"You have a coupon for {Shopper.coupon.product_name}!")
+    def check_coupons(self, shopper):
+        if shopper.coupon is not None:
+            print(f"You have a coupon for {shopper.coupon.product_name}!")
         else:
             coupon = self.generate_coupon(GroceryStore.inventory)
-            Shopper.coupon = coupon
+            shopper.coupon = coupon
             print(f"You received a {coupon.discount}% discount coupon for {coupon.product_name}!")
 
 if __name__ == '__main__':
