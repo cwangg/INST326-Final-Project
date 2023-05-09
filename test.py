@@ -129,6 +129,7 @@ class Shopper:
     #If at checkout the price is greater than the shopper's budget, remove the most expensive item from the person's cart. Keep doing that until
     #total price is < the shopper's budget.
 
+
 class Coupon:
     """
     A class that represents a coupon for a shopper. Ues conditional expression and set operations.
