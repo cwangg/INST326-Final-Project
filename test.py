@@ -4,7 +4,7 @@ import pandas as pd
 
 class Product:
     """
-    A class that represents a product in a grocery store.
+    A class that represents a prodcut in a grocery store.
 
     Attributes:
     - name (str): the name of the product
