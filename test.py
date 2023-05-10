@@ -107,7 +107,7 @@ class Shopper:
             self.cart[product_name] += quantity
         else:
             self.cart[product_name] = quantity
-        df.loc[product_name, "Quantity"] = (store.inventory[product_name].get_quantity - quantity)
+        df.loc[product_name, "Quantity"] = (store.inventory[product_name].get_quantity() - quantity)
         print(f"{quantity} {product_name} added to your cart.")
     
     def generate_coupon(self):
@@ -179,7 +179,7 @@ if __name__ == '__main__':
     budget = float(input(f"{shopper_name}, What's your budget for today? $"))
 
     shopper = Shopper(shopper_name, budget)
-    df = pd.read_csv("grocery store inventory.csv")
+    df = pd.read_csv("grocery store inventory.csv", index_col="Item")
     
     while True:
         choice = input("Would you like to add an item to your cart, checkout, or quit? ").lower()
