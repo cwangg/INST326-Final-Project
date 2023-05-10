@@ -120,15 +120,6 @@ class Shopper:
 
         return coupon
     
-<<<<<<< HEAD
-=======
-    #def check_coupons(self, product_name):
-       #shopper.coupon = self.generate_coupon(GroceryStore.get_inventory)
-       # print(f"You received a {shopper.coupon.get_discount()}% discount coupon!")
-    #If at checkout the price is greater than the shopper's budget, remove the most expensive item from the person's cart. Keep doing that until
-    #total price is < the shopper's budget.
-    
->>>>>>> 3a3de339bc95259d9374e1cc392cb5fe92a74eb3
     def checkout(self, store):
         total_price = 0
         for product_name, quantity in self.cart.items():
