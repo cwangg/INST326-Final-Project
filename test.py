@@ -100,7 +100,7 @@ class Shopper:
             return
         product = store.inventory[product_name]
         total_price = product.price * quantity
-        if total_price > self.budget:
+        if total_price + sum([store.inventory[p].price * self.cart[p] for p in self.cart]) > self.budget:
             print(f"Item cost to much, put it back!")
             return
         if product_name in self.cart:
@@ -120,12 +120,15 @@ class Shopper:
 
         return coupon
     
+<<<<<<< HEAD
+=======
     #def check_coupons(self, product_name):
        #shopper.coupon = self.generate_coupon(GroceryStore.get_inventory)
        # print(f"You received a {shopper.coupon.get_discount()}% discount coupon!")
     #If at checkout the price is greater than the shopper's budget, remove the most expensive item from the person's cart. Keep doing that until
     #total price is < the shopper's budget.
     
+>>>>>>> 3a3de339bc95259d9374e1cc392cb5fe92a74eb3
     def checkout(self, store):
         total_price = 0
         for product_name, quantity in self.cart.items():
@@ -142,33 +145,20 @@ class Coupon:
     A class that represents a coupon for a shopper. Ues conditional expression and set operations.
 
     Attributes:
-    - coupons (dict): a dictionary of product names and their discounts for a shopper
+    - discount (int): the randomly generated discount for the coupon
+    - product_name (str): the name of the product the coupon is for
 
     Methods:
-    - __init__(self): Initializes a dictionary of coupons for each shopper.
-    - generate_coupon(self): Generates a random discount (integer between 5 and 20) 
-                             for a random product and adds it to the shopper's coupons dictionary.
-    - get_coupons(self): Returns the shopper's coupons dictionary.
+    - __init__(self): Initializes the discount and product name of the coupon
     - get_discount(self, product_name): Returns the discount for a specific product in the shopper's coupons.
-    - set_discount(self, product_name, new_discount): Sets a new discount for a specific product in the shopper's coupons.
-    - get_product(self, product_name): Loops through Products and checks if the Shopper has a discount for that product.
-    - set_product(self, product_name, new_product): Switches the product on a coupon to a different product.
+    
     """
-# class that createa a dictionary for each new shopper, 
-# and adds a randomly generated coupon from the products class
     def __init__(self, discount, product_name): 
         self.discount = discount
         self.product_name = product_name
     
     def get_discount(self):
         return self.discount
-    #def generate_coupon(self, inventory):
-    # method that will generate a random discount (int between 5, 20)
-    # and choose a random product and print the resulting information
-    #    product_name, product = random.choice(list(inventory.items()))
-    #   discount = random.randint(5, 20)
-    #    coupon = self(product_name, discount)
-    #    return coupon
 
 
 if __name__ == '__main__':
@@ -196,8 +186,9 @@ if __name__ == '__main__':
             coupon_choice = input("Would you like to use a coupon? ").lower()
             if coupon_choice == "yes":
                 shopper.checkout(store)
-                
-            print("Ok! Keep Shopping!")
-        elif choice == "leave":
+                break
+            elif coupon_choice == "no":
+                print("Ok! Keep Shopping!")
+        elif choice == "quit":
             print ("Come back again!")
             break
