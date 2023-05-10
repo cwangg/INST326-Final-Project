@@ -126,9 +126,9 @@ class Shopper:
         for product_name, quantity in self.cart.items():
             product = store.inventory[product_name]
             total_price += product.price * quantity
-        if self.coupon is not None and self.coupon.product_name in self.cart:
+        if self.coupon:
             discount = self.coupon.discount
-            total_price *= (1 - discount/100)
+            total_price *= (1 - (discount/100))
         print(f"Your total price comes to: ${total_price}")
         return total_price
 
@@ -151,6 +151,9 @@ class Coupon:
     
     def get_discount(self):
         return self.discount
+    
+    def __repr__(self):
+        return f'(Coupon: {self.name}% off {self.product_name})'
 
 
 if __name__ == '__main__':
@@ -174,18 +177,19 @@ if __name__ == '__main__':
             if not shopper.cart:
                 print("Your cart is empty!")
                 continue
-            shopper.generate_coupon()
+            shopper.coupon = shopper.generate_coupon()
+            print(shopper.coupon)
             coupon_choice = input("Would you like to use a coupon? ").lower()
             if coupon_choice == "yes":
                 shopper.checkout(store)
                 break
             elif coupon_choice == "no":
                 print("Ok! Keep Shopping!")
-        elif choice == "quit":
+        elif choice == "leave":
             print ("Come back again!")
             break
     
-    #Show a bar graph of the current inventory
+    #Show a bar graph of the previous inventory
     dfbefore = pd.read_csv("before inventory.csv")
     name = dfbefore['Item']
     quantity = dfbefore['Quantity']
@@ -198,8 +202,8 @@ if __name__ == '__main__':
     
     #Show a bar graph of the current inventory
     df = df.reset_index()
-    name2 = df['Item']
-    quantity2 = df['Quantity']
+    name = df['Item']
+    quantity = df['Quantity']
     # Figure Size
     plt.bar(name, quantity)
     plt.xlabel("Food Items")
