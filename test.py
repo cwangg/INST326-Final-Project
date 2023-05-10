@@ -153,7 +153,7 @@ class Coupon:
         return self.discount
     
     def __repr__(self):
-        return f'(Coupon: {self.name}% off {self.product_name})'
+        return f'(Coupon: {self.discount}% off {self.product_name})'
 
 
 if __name__ == '__main__':
