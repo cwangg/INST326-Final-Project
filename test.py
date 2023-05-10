@@ -1,6 +1,7 @@
 import sys
 import random
 import pandas as pd
+import matplotlib.pyplot as plt
 
 class Product:
     """
@@ -125,19 +126,10 @@ class Shopper:
         for product_name, quantity in self.cart.items():
             product = store.inventory[product_name]
             total_price += product.price * quantity
-
         if self.coupon is not None and self.coupon.product_name in self.cart:
-            coupon_product_name = self.coupon.product_name
-            coupon_discount = self.coupon.discount
-            coupon_product_quantity = self.cart[coupon_product_name]
-            coupon_product_price = store.inventory[coupon_product_name].price
-
-            coupon_discount_amount = coupon_product_quantity * coupon_product_price * coupon_discount / 100
-            total_price -= coupon_discount_amount
-
-            print(f"You used a {coupon_discount}% discount on {coupon_product_name} for a total discount of ${coupon_discount_amount:.2f}")
-
-        print(f"Your total price comes to: ${total_price:.2f}")
+            discount = self.coupon.discount
+            total_price *= (1 - (discount/100))
+        print(f"Your total price comes to: ${total_price}")
         return total_price
 
 class Coupon:
@@ -192,3 +184,26 @@ if __name__ == '__main__':
         elif choice == "quit":
             print ("Come back again!")
             break
+    
+    #Show a bar graph of the current inventory
+    dfbefore = pd.read_csv("before inventory.csv")
+    name = dfbefore['Item']
+    quantity = dfbefore['Quantity']
+    # Figure Size
+    plt.bar(name, quantity, color = "red")
+    plt.xlabel("Food Items")
+    plt.ylabel("Quantity")
+    plt.title("Previous Store Inventory")
+    plt.show()
+    
+    #Show a bar graph of the current inventory
+    df = df.reset_index()
+    name2 = df['Item']
+    quantity2 = df['Quantity']
+    # Figure Size
+    plt.bar(name, quantity)
+    plt.xlabel("Food Items")
+    plt.ylabel("Quantity")
+    plt.title("Current Store Inventory")
+    plt.show()
+    
