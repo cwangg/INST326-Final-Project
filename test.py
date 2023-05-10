@@ -31,14 +31,16 @@ class Product:
     def get_name(self):
         return self.name
     
+    def get_quantity(self):
+        return self.quantity
+    
     def __repr__(self):
         return f'(Item: {self.name}, Category: {self.category}, Quantity = {self.quantity}, Price = ${self.price})'
     
     
 class GroceryStore:
     """
-    A class that represents a grocery store. Uses with statement and sequence
-    unpacking.
+    A class that represents a grocery store.
 
     Attributes:
     - name (str): the name of the grocery store
@@ -50,10 +52,18 @@ class GroceryStore:
                                 from a file named "stock". 
     """
     def __init__(self, name = "", inventory = "grocery store inventory.csv"):
-        # Intitialize a grocery store with the name of it and its inventory.
+        """Intializes a grocery store and creates its inventory from a csv file.
+        
+        Args:
+            name (str): a phone number given as a str or int
+            inventory (csv): 
+        Side effects:
+            Sets attributes
+        """
         self.name = name
         self.inventory = dict()
         with open(inventory, "r", encoding="utf-8") as f:
+            next(f)
             for line in f:
                 item, category, quantity, price = line.strip().split(',')
                 self.inventory[item] = Product(item, category, int(quantity), int(price))
@@ -97,6 +107,7 @@ class Shopper:
             self.cart[product_name] += quantity
         else:
             self.cart[product_name] = quantity
+        df.loc[product_name, "Quantity"] = (store.inventory[product_name].get_quantity - quantity)
         print(f"{quantity} {product_name} added to your cart.")
     
     def generate_coupon(self):
@@ -109,6 +120,15 @@ class Shopper:
 
         return coupon
     
+<<<<<<< HEAD
+=======
+    #def check_coupons(self, product_name):
+       #shopper.coupon = self.generate_coupon(GroceryStore.get_inventory)
+       # print(f"You received a {shopper.coupon.get_discount()}% discount coupon!")
+    #If at checkout the price is greater than the shopper's budget, remove the most expensive item from the person's cart. Keep doing that until
+    #total price is < the shopper's budget.
+    
+>>>>>>> 3a3de339bc95259d9374e1cc392cb5fe92a74eb3
     def checkout(self, store):
         total_price = 0
         for product_name, quantity in self.cart.items():
@@ -149,10 +169,12 @@ if __name__ == '__main__':
     budget = float(input(f"{shopper_name}, What's your budget for today? $"))
 
     shopper = Shopper(shopper_name, budget)
+    df = pd.read_csv("grocery store inventory.csv")
     
     while True:
         choice = input("Would you like to add an item to your cart, checkout, or quit? ").lower()
         if choice == "add":
+            print(df)
             item_name = input("What would you like to add to your cart? ")
             quantity = int(input(f"How many {item_name} would you like to add to your cart? "))
             shopper.add(item_name, quantity, store)
