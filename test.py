@@ -182,6 +182,8 @@ if __name__ == '__main__':
             coupon_choice = input("Would you like to use a coupon? ").lower()
             if coupon_choice == "yes":
                 shopper.checkout(store)
+                print("Have a nice day!")
+
                 break
             elif coupon_choice == "no":
                 print("Ok! Keep Shopping!")
