@@ -182,7 +182,7 @@ if __name__ == '__main__':
     df = pd.read_csv("grocery store inventory.csv", index_col="Item")
     
     while True:
-        choice = input("Would you like to add an item to your cart, checkout, or quit? ").lower()
+        choice = input("Would you like to add an item to your cart, checkout, or leave? ").lower()
         if choice == "add":
             print(df)
             item_name = input("What would you like to add to your cart? ")
@@ -198,6 +198,6 @@ if __name__ == '__main__':
                 shopper.checkout(store)
                 
             print("Ok! Keep Shopping!")
-        elif choice == "quit":
+        elif choice == "leave":
             print ("Come back again!")
             break
