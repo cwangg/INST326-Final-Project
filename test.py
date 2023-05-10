@@ -129,7 +129,7 @@ class Shopper:
         if self.coupon:
             discount = self.coupon.discount
             total_price *= (1 - (discount/100))
-        print(f"Your total price comes to: ${total_price}")
+        print(f"Your total price comes to: ${round(total_price, 2)}")
         return total_price
 
 class Coupon:
@@ -153,7 +153,7 @@ class Coupon:
         return self.discount
     
     def __repr__(self):
-        return f'(Coupon: {self.name}% off {self.product_name})'
+        return f'Coupon: {self.discount}% off {self.product_name}'
 
 
 if __name__ == '__main__':
@@ -178,7 +178,6 @@ if __name__ == '__main__':
                 print("Your cart is empty!")
                 continue
             shopper.coupon = shopper.generate_coupon()
-            print(shopper.coupon)
             coupon_choice = input("Would you like to use a coupon? ").lower()
             if coupon_choice == "yes":
                 shopper.checkout(store)
