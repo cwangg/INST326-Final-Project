@@ -1,6 +1,7 @@
 import sys
 import random
 import pandas as pd
+import matplotlib.pyplot as plt
 
 class Product:
     """
@@ -120,15 +121,6 @@ class Shopper:
 
         return coupon
     
-<<<<<<< HEAD
-=======
-    #def check_coupons(self, product_name):
-       #shopper.coupon = self.generate_coupon(GroceryStore.get_inventory)
-       # print(f"You received a {shopper.coupon.get_discount()}% discount coupon!")
-    #If at checkout the price is greater than the shopper's budget, remove the most expensive item from the person's cart. Keep doing that until
-    #total price is < the shopper's budget.
-    
->>>>>>> 3a3de339bc95259d9374e1cc392cb5fe92a74eb3
     def checkout(self, store):
         total_price = 0
         for product_name, quantity in self.cart.items():
@@ -192,3 +184,26 @@ if __name__ == '__main__':
         elif choice == "quit":
             print ("Come back again!")
             break
+    
+    #Show a bar graph of the current inventory
+    dfbefore = pd.read_csv("before inventory.csv")
+    name = dfbefore['Item']
+    quantity = dfbefore['Quantity']
+    # Figure Size
+    plt.bar(name, quantity, color = "red")
+    plt.xlabel("Food Items")
+    plt.ylabel("Quantity")
+    plt.title("Previous Store Inventory")
+    plt.show()
+    
+    #Show a bar graph of the current inventory
+    df = df.reset_index()
+    name2 = df['Item']
+    quantity2 = df['Quantity']
+    # Figure Size
+    plt.bar(name, quantity)
+    plt.xlabel("Food Items")
+    plt.ylabel("Quantity")
+    plt.title("Current Store Inventory")
+    plt.show()
+    
