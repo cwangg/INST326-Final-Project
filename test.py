@@ -139,7 +139,7 @@ class Shopper:
 
 class Coupon:
     """
-    A class that represents a coupon for a shopper. Ues conditional expression and set operations.
+    A class that represents a coupon with a discount and product name and gives the formal representation
 
     Attributes:
     - discount (int): the randomly generated discount for the coupon
@@ -147,15 +147,16 @@ class Coupon:
 
     Methods:
     - __init__(self): Initializes the discount and product name of the coupon
-    - get_discount(self, product_name): Returns the discount for a specific product in the shopper's coupons.
+    - get_discount(self): Returns the discount of the coupon
+    - __repr__(self): formal representation of a coupon
     
     """
     def __init__(self, discount, product_name): 
         """Intializes a coupon with its discount and product name. 
         
         Args:
-            name (str): a phone number given as a str or int
-            inventory (csv): a file containing the product name, category, quantity, price
+            discount (int): randomly generated int
+            product_name (str): randomly selected product from the shopper's cart
             
         Side effects:
             Sets attributes
