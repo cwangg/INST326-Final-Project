@@ -61,7 +61,8 @@ class GroceryStore:
         
         Args:
             name (str): a phone number given as a str or int
-            inventory (csv): 
+            inventory (csv): a file containing the product name, category, quantity, price
+            
         Side effects:
             Sets attributes
         """
@@ -150,6 +151,15 @@ class Coupon:
     
     """
     def __init__(self, discount, product_name): 
+        """Intializes a coupon with its discount and product name. 
+        
+        Args:
+            name (str): a phone number given as a str or int
+            inventory (csv): a file containing the product name, category, quantity, price
+            
+        Side effects:
+            Sets attributes
+        """
         self.discount = discount
         self.product_name = product_name
     
