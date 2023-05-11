@@ -1,4 +1,5 @@
 import sys
+import re
 import random
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -20,7 +21,10 @@ class Product:
     - set_price(self, new_price): Sets a new price for the product.
     - set_quantity(self, new_quantity): Sets a new quantity for the product in the store.
     """
+
     def __init__(self, name, category, quantity, price):
+        if not re.match(r'^[a-zA-Z0-9_\- ]+$', name):
+            raise ValueError('Name can only contain letters, numbers, underscores, dashes and spaces.')
         self.name = name
         self.category = category
         self.quantity = quantity
