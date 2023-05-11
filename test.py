@@ -212,25 +212,24 @@ if __name__ == '__main__':
             print ("Come back again!")
             break
     
-    #Show a bar graph of the previous inventory
-    dfbefore = pd.read_csv("before inventory.csv")
-    name = dfbefore['Item']
-    quantity = dfbefore['Quantity']
-    # Figure Size
-    plt.bar(name, quantity, color = "red")
-    plt.xlabel("Food Items")
-    plt.ylabel("Quantity")
-    plt.title("Previous Store Inventory")
-    plt.show()
-    
-    #Show a bar graph of the current inventory
-    df = df.reset_index()
-    name = df['Item']
-    quantity = df['Quantity']
-    # Figure Size
-    plt.bar(name, quantity)
-    plt.xlabel("Food Items")
-    plt.ylabel("Quantity")
-    plt.title("Current Store Inventory")
-    plt.show()
-    
+   # Show a bar graph of the previous inventory
+dfbefore = pd.read_csv("before inventory.csv")
+name = dfbefore['Item']
+quantity = dfbefore['Quantity']
+# Figure Size
+plt.bar(quantity, name, color="red")
+plt.xlabel("Quantity")
+plt.ylabel("Food Items")
+plt.title("Previous Store Inventory")
+plt.show()
+
+# Show a bar graph of the current inventory
+df = df.reset_index()
+name = df['Item']
+quantity = df['Quantity']
+# Figure Size
+plt.bar(quantity, name)
+plt.xlabel("Quantity")
+plt.ylabel("Food Items")
+plt.title("Current Store Inventory")
+plt.show()
