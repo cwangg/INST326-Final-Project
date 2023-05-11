@@ -10,18 +10,18 @@ class Product:
 
     Attributes:
     - name (str): the name of the product
+    - category (str): the category of the product
     - price (float): the price of the product
     - quantity (int): the quantity of the product in the store
 
     Methods:
-    - __init__(self, name, price, quantity): Initializes a product with its name, price, and quantity.
+    - __init__(self, name, price, quantity): Initializes a product with its name, category, quantity, and price.
     - get_name(self): Returns the name of the product.
-    - get_price(self): Returns the price of the product.
+    - get_category(self): Returns the category of the product.
     - get_quantity(self): Returns the quantity of the product in the store.
-    - set_price(self, new_price): Sets a new price for the product.
-    - set_quantity(self, new_quantity): Sets a new quantity for the product in the store.
+    - get_price(self): Returns the price of the product.
+    - __repr__(self): Returns the formal representation of a product
     """
-
     def __init__(self, name, category, quantity, price):
         if not re.match(r'^[a-zA-Z0-9_\- ]+$', name):
             raise ValueError('Name can only contain letters, numbers, underscores, dashes and spaces.')
@@ -30,14 +30,17 @@ class Product:
         self.quantity = quantity
         self.price = price
         
-    def get_category(self):
-        return self.category
-
     def get_name(self):
         return self.name
     
+    def get_category(self):
+        return self.category
+    
     def get_quantity(self):
         return self.quantity
+    
+    def get_price(self):
+        return self.price
     
     def __repr__(self):
         return f'(Item: {self.name}, Category: {self.category}, Quantity = {self.quantity}, Price = ${self.price})'
@@ -52,15 +55,16 @@ class GroceryStore:
     - inventory (dict): a dictionary of product names and their quantities in the store
 
     Methods:
-    - __init__(self, name, inventory): Initializes a grocery store with the name of it and its inventory.
-    - setup_store(self, stock): Populates the inventory of the grocery store with products and their quantities 
-                                from a file named "stock". 
+    - __init__(self, name, inventory): Initializes a grocery store with the name of it and populates the 
+        inventory of the grocery store with products and their quantities 
+        from a file named "grocery store inventory.csv". 
+    - get_inventory(self): returns the inventory of the grocery store
     """
     def __init__(self, name = "", inventory = "grocery store inventory.csv"):
         """Intializes a grocery store and creates its inventory from a csv file.
         
         Args:
-            name (str): a phone number given as a str or int
+            name (str): the name of the grocery store
             inventory (csv): a file containing the product name, category, quantity, price
             
         Side effects:
@@ -95,12 +99,38 @@ class Shopper:
                       The cart is then cleared.
     """
     def __init__(self, name, budget):
+        """Intializes a shopper with their name, cart, budget, and coupon
+        
+        Args:
+            name (str): the name of the shopper
+            budget (int): the shoppers budget
+        
+        Attributes:
+            name (str): the name of the shopper
+            cart(dict): dictionary to hold the shoppers list of products
+            budget (int): the shoppers budget
+            coupon (Coupon): whether the shopper has a coupon
+
+        Side effects:
+            Sets attributes
+        """
         self.name = name
         self.cart = {}
         self.budget = budget
         self.coupon = None
 
     def add(self, product_name, quantity, store):
+        """ This function adds a specified amount/product to the shoppers cart as long as the item 
+            is in stock and the shopper does not go over their specified budget. 
+        
+        Args:
+            product_name (str): the name of the product
+            quantity (int): the quantity of the product they want to add
+            store (str): the grocery store and its inventory
+
+        Side effects:
+            Adds specified product(s) to the shopper's cart attribute
+        """
         if product_name not in store.inventory:
             print(f"Sorry! We dont have {product_name}")
             return
