@@ -21,6 +21,7 @@ class Product:
     - set_price(self, new_price): Sets a new price for the product.
     - set_quantity(self, new_quantity): Sets a new quantity for the product in the store.
     """
+   
 
     def __init__(self, name, category, quantity, price):
         if not re.match(r'^[a-zA-Z0-9_\- ]+$', name):
@@ -117,13 +118,14 @@ class Shopper:
     
     def generate_coupon(self):
     # method that will generate a random discount (int between 5, 20)
-    # and choose a random product and print the resulting information
-        product_name = random.choice(list(self.cart.keys()))
+    # and apply it to the total cost of the cart
         discount = random.randint(5, 20)
-        coupon = Coupon(discount, product_name)
-        print(f"You received a {discount}% discount on {product_name}")
+        coupon = Coupon(discount)
+        self.coupon = coupon
+        print(f"You received a {discount}% discount on your cart.")
 
         return coupon
+
     
     def checkout(self, store):
         total_price = 0
@@ -131,10 +133,11 @@ class Shopper:
             product = store.inventory[product_name]
             total_price += product.price * quantity
         if self.coupon:
-            discount = self.coupon.discount
-            total_price *= (1 - (discount/100))
+            total_price = self.coupon.apply(total_price)
         print(f"Your total price comes to: ${round(total_price, 2)}")
         return total_price
+
+
 
 class Coupon:
     """
@@ -149,15 +152,16 @@ class Coupon:
     - get_discount(self, product_name): Returns the discount for a specific product in the shopper's coupons.
     
     """
-    def __init__(self, discount, product_name): 
-        self.discount = discount
-        self.product_name = product_name
     
-    def get_discount(self):
-        return self.discount
+    def __init__(self, discount): 
+        self.discount = discount
+    
+    def apply(self, total_price):
+        return total_price * (1 - (self.discount/100))
     
     def __repr__(self):
-        return f'Coupon: {self.discount}% off {self.product_name}'
+        return f'Coupon: {self.discount}% off'
+
 
 
 if __name__ == '__main__':
