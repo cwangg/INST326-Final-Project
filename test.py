@@ -148,8 +148,15 @@ class Shopper:
         print(f"{quantity} {product_name} added to your cart.")
     
     def generate_coupon(self):
-    # method that will generate a random discount (int between 5, 20)
-    # and apply it to the total cost of the cart
+        """ This function will generate a random discount between 5% and 20% 
+            and apply it to the total cost of the cart
+
+        Side effects:
+            Creates a coupon object using the randomg discount
+            
+        Returns:
+            the coupon object
+        """
         discount = random.randint(5, 20)
         coupon = Coupon(discount)
         self.coupon = coupon
