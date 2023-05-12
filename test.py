@@ -145,7 +145,8 @@ class Shopper:
         self.coupon = None
 
     def add(self, product_name, quantity, store):
-        """ This function adds a specified amount/product to the shoppers cart as long as the item 
+        """ Primary Author: Colleen Wang  Technique: List comprehension
+            This function adds a specified amount/product to the shoppers cart as long as the item 
             is in stock and the shopper does not go over their specified budget. 
         
         Args:
@@ -172,7 +173,8 @@ class Shopper:
         print(f"{quantity} {product_name} added to your cart.")
     
     def generate_coupon(self):
-        """ This function will generate a random discount between 5% and 20% 
+        """ Primary Author: Colleen Wang  Technique: Composition of two custom classes
+            This function will generate a random discount between 5% and 20% 
             and apply it to the total cost of the cart
 
         Side effects:
@@ -190,6 +192,14 @@ class Shopper:
 
     
     def checkout(self, store):
+        """ This function will calculate the total price after discount when the shopper checkout
+
+        Args:
+            store (str): the grocery store and its inventory            
+            
+        Returns:
+            the total price after discount
+        """
         total_price = 0
         for product_name, quantity in self.cart.items():
             product = store.inventory[product_name]
@@ -203,7 +213,8 @@ class Shopper:
 
 class Coupon:
     """
-    A class that represents a coupon with a discount and product name and gives the formal representation
+    A class that represents a coupon with a discount and product name and gives the formal 
+    representation
 
     Attributes:
     - discount (int): the randomly generated discount for the coupon
