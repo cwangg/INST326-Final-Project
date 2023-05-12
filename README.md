@@ -19,7 +19,7 @@ How to use: After running the script, follow the prompts in the terminal by typi
 | generate_coupon | Colleen | Composition of two custom classes |
 | method | Alex | technique |
 | method | Alex | technique |
-| method | Mez | technique |
-| method | Mez | technique |
+| init | Mez | regular expressions |
+| repr | Mez | magic methods |
 | method | Arkebe | technique |
 | method | Arkebe| technique |

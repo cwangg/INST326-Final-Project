@@ -24,6 +24,22 @@ class Product:
     """
 
     def __init__(self, name, category, quantity, price):
+        """
+        Meseret Arnold-Regular Expressions
+        Initializes a Product object with given name, category, quantity and price.
+        
+        Args:
+        - name (str): name of the product
+        - category (str): category of the product
+        - quantity (int): quantity of the product
+        - price (float): price of the product
+        
+        Raises:
+        - ValueError: If name contains any character other than letters, numbers, underscores, dashes, and spaces.
+        
+        Side Effects:
+        - Initializes attributes name, category, quantity, and price.
+        """
         if not re.match(r'^[a-zA-Z0-9_\- ]+$', name):
             raise ValueError('Name can only contain letters, numbers, underscores, dashes and spaces.')
         self.name = name
@@ -44,8 +60,16 @@ class Product:
         return self.price
     
     def __repr__(self):
+        """
+        Returns a string representation of the Product object.
+        
+        Returns:
+        - str: A string representation of the product object in the following format:
+            (Item: {self.name}, Category: {self.category}, Quantity = {self.quantity}, Price = ${self.price})
+        """
         return f'(Item: {self.name}, Category: {self.category}, Quantity = {self.quantity}, Price = ${self.price})'
-    
+
+
     
 class GroceryStore:
     """
