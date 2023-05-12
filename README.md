@@ -14,7 +14,7 @@ How to use: After running the script, follow the prompts in the terminal by typi
 | generate_coupon | Colleen | Composition of two custom classes |
 | grocery store __init__| Alex | with statements |
 | main | Alex | visualizing data with pyplot |
-| init | Mez | regular expressions |
-| repr | Mez| magic methods |
+| __init__ | Mez | regular expressions |
+| __repr__ | Mez| magic methods |
 | method | Arkebe | technique |
 | method | Arkebe | technique |
