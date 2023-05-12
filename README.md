@@ -1,8 +1,4 @@
 # INST326-Final-Project 
-Mez : super(), key functions | 
-Arkebe : magic methods, f-strings |
-Alex : with statements, sequence unpacking | 
-
 Files:
 test.py - 
 grocery store inventory.csv - 
@@ -18,7 +14,7 @@ How to use: After running the script, follow the prompts in the terminal by typi
 | generate_coupon | Colleen | Composition of two custom classes |
 | grocery store __init__| Alex | with statements |
 | main | Alex | visualizing data with pyplot |
-| method | Mez | technique |
-| method | Mez | technique |
+| init | Mez | regular expressions |
+| repr | Mez| magic methods |
 | method | Arkebe | technique |
 | method | Arkebe | technique |

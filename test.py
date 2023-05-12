@@ -67,7 +67,9 @@ class Product:
         - str: A string representation of the product object in the following format:
             (Item: {self.name}, Category: {self.category}, Quantity = {self.quantity}, Price = ${self.price})
         """
-        return f'(Item: {self.name}, Category: {self.category}, Quantity = {self.quantity}, Price = ${self.price})'
+        
+        return f"Product(name='{self.name}', category='{self.category}', quantity={self.quantity}, price={self.price})"
+
 
 
     
