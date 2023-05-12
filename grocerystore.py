@@ -1,5 +1,4 @@
 import sys
-import re
 import random
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -10,66 +9,35 @@ class Product:
 
     Attributes:
     - name (str): the name of the product
-    - category (str): the category of the product
     - price (float): the price of the product
     - quantity (int): the quantity of the product in the store
 
     Methods:
-    - __init__(self, name, price, quantity): Initializes a product with its name, category, quantity, and price.
+    - __init__(self, name, price, quantity): Initializes a product with its name, price, and quantity.
     - get_name(self): Returns the name of the product.
-    - get_category(self): Returns the category of the product.
-    - get_quantity(self): Returns the quantity of the product in the store.
     - get_price(self): Returns the price of the product.
-    - __repr__(self): Returns the formal representation of a product
+    - get_quantity(self): Returns the quantity of the product in the store.
+    - set_price(self, new_price): Sets a new price for the product.
+    - set_quantity(self, new_quantity): Sets a new quantity for the product in the store.
     """
-
     def __init__(self, name, category, quantity, price):
-        """
-        Meseret Arnold-Regular Expressions
-        Initializes a Product object with given name, category, quantity and price.
-        
-        Args:
-        - name (str): name of the product
-        - category (str): category of the product
-        - quantity (int): quantity of the product
-        - price (float): price of the product
-        
-        Raises:
-        - ValueError: If name contains any character other than letters, numbers, underscores, dashes, and spaces.
-        
-        Side Effects:
-        - Initializes attributes name, category, quantity, and price.
-        """
-        if not re.match(r'^[a-zA-Z0-9_\- ]+$', name):
-            raise ValueError('Name can only contain letters, numbers, underscores, dashes and spaces.')
         self.name = name
         self.category = category
         self.quantity = quantity
         self.price = price
         
-    def get_name(self):
-        return self.name
-    
     def get_category(self):
         return self.category
+
+    def get_name(self):
+        return self.name
     
     def get_quantity(self):
         return self.quantity
     
-    def get_price(self):
-        return self.price
-    
     def __repr__(self):
-        """
-        Returns a string representation of the Product object.
-        
-        Returns:
-        - str: A string representation of the product object in the following format:
-            (Item: {self.name}, Category: {self.category}, Quantity = {self.quantity}, Price = ${self.price})
-        """
         return f'(Item: {self.name}, Category: {self.category}, Quantity = {self.quantity}, Price = ${self.price})'
-
-
+    
     
 class GroceryStore:
     """
@@ -80,18 +48,16 @@ class GroceryStore:
     - inventory (dict): a dictionary of product names and their quantities in the store
 
     Methods:
-    - __init__(self, name, inventory): Initializes a grocery store with the name of it and populates the 
-        inventory of the grocery store with products and their quantities 
-        from a file named "grocery store inventory.csv". 
-    - get_inventory(self): returns the inventory of the grocery store
+    - __init__(self, name, inventory): Initializes a grocery store with the name of it and its inventory.
+    - setup_store(self, stock): Populates the inventory of the grocery store with products and their quantities 
+                                from a file named "stock". 
     """
     def __init__(self, name = "", inventory = "grocery store inventory.csv"):
         """Intializes a grocery store and creates its inventory from a csv file.
         
         Args:
-            name (str): the name of the grocery store
-            inventory (csv): a file containing the product name, category, quantity, price
-            
+            name (str): a phone number given as a str or int
+            inventory (str): a str containing the name of the csv file
         Side effects:
             Sets attributes
         """
@@ -124,38 +90,12 @@ class Shopper:
                       The cart is then cleared.
     """
     def __init__(self, name, budget):
-        """Intializes a shopper with their name, cart, budget, and coupon
-        
-        Args:
-            name (str): the name of the shopper
-            budget (int): the shoppers budget
-        
-        Attributes:
-            name (str): the name of the shopper
-            cart(dict): dictionary to hold the shoppers list of products
-            budget (int): the shoppers budget
-            coupon (Coupon): whether the shopper has a coupon
-
-        Side effects:
-            Sets attributes
-        """
         self.name = name
         self.cart = {}
         self.budget = budget
         self.coupon = None
 
     def add(self, product_name, quantity, store):
-        """ This function adds a specified amount/product to the shoppers cart as long as the item 
-            is in stock and the shopper does not go over their specified budget. 
-        
-        Args:
-            product_name (str): the name of the product
-            quantity (int): the quantity of the product they want to add
-            store (str): the grocery store and its inventory
-
-        Side effects:
-            Adds specified product(s) to the shopper's cart attribute
-        """
         if product_name not in store.inventory:
             print(f"Sorry! We dont have {product_name}")
             return
@@ -172,22 +112,14 @@ class Shopper:
         print(f"{quantity} {product_name} added to your cart.")
     
     def generate_coupon(self):
-        """ This function will generate a random discount between 5% and 20% 
-            and apply it to the total cost of the cart
-
-        Side effects:
-            Creates a coupon object using the randomg discount
-            
-        Returns:
-            the coupon object
-        """
+    # method that will generate a random discount (int between 5, 20)
+    # and choose a random product and print the resulting information
+        product_name = random.choice(list(self.cart.keys()))
         discount = random.randint(5, 20)
-        coupon = Coupon(discount)
-        self.coupon = coupon
-        print(f"You received a {discount}% discount on your cart.")
+        coupon = Coupon(discount, product_name)
+        print(f"You received a {discount}% discount on {product_name}")
 
         return coupon
-
     
     def checkout(self, store):
         total_price = 0
@@ -195,15 +127,14 @@ class Shopper:
             product = store.inventory[product_name]
             total_price += product.price * quantity
         if self.coupon:
-            total_price = self.coupon.apply(total_price)
+            discount = self.coupon.discount
+            total_price *= (1 - (discount/100))
         print(f"Your total price comes to: ${round(total_price, 2)}")
         return total_price
 
-
-
 class Coupon:
     """
-    A class that represents a coupon with a discount and product name and gives the formal representation
+    A class that represents a coupon for a shopper. Ues conditional expression and set operations.
 
     Attributes:
     - discount (int): the randomly generated discount for the coupon
@@ -211,32 +142,18 @@ class Coupon:
 
     Methods:
     - __init__(self): Initializes the discount and product name of the coupon
-    - get_discount(self): Returns the discount of the coupon
-    - __repr__(self): formal representation of a coupon
+    - get_discount(self, product_name): Returns the discount for a specific product in the shopper's coupons.
     
     """
     def __init__(self, discount, product_name): 
-        """Intializes a coupon with its discount and product name. 
-        
-        Args:
-            discount (int): randomly generated int
-            product_name (str): randomly selected product from the shopper's cart
-            
-        Side effects:
-            Sets attributes
-        """
         self.discount = discount
         self.product_name = product_name
     
-    def __init__(self, discount): 
-        self.discount = discount
-    
-    def apply(self, total_price):
-        return total_price * (1 - (self.discount/100))
+    def get_discount(self):
+        return self.discount
     
     def __repr__(self):
-        return f'Coupon: {self.discount}% off'
-
+        return f'Coupon: {self.discount}% off {self.product_name}'
 
 
 if __name__ == '__main__':
@@ -273,24 +190,24 @@ if __name__ == '__main__':
             print ("Come back again!")
             break
     
-   # Show a bar graph of the previous inventory
-dfbefore = pd.read_csv("before inventory.csv")
-name = dfbefore['Item']
-quantity = dfbefore['Quantity']
-# Figure Size
-plt.bar(quantity, name, color="red")
-plt.xlabel("Quantity")
-plt.ylabel("Food Items")
-plt.title("Previous Store Inventory")
-plt.show()
-
-# Show a bar graph of the current inventory
-df = df.reset_index()
-name = df['Item']
-quantity = df['Quantity']
-# Figure Size
-plt.bar(quantity, name)
-plt.xlabel("Quantity")
-plt.ylabel("Food Items")
-plt.title("Current Store Inventory")
-plt.show()
+    #Show a bar graph of the previous inventory
+    dfbefore = pd.read_csv("before inventory.csv")
+    name = dfbefore['Item']
+    quantity = dfbefore['Quantity']
+    # Figure Size
+    plt.barh(name, quantity, color = "red")
+    plt.ylabel("Food Items")
+    plt.xlabel("Quantity")
+    plt.title("Previous Store Inventory")
+    plt.show()
+    
+    #Show a bar graph of the current inventory
+    df = df.reset_index()
+    name = df['Item']
+    quantity = df['Quantity']
+    # Figure Size
+    plt.barh(name, quantity)
+    plt.ylabel("Food Items")
+    plt.xlabel("Quantity")
+    plt.title("Current Store Inventory")
+    plt.show()
